@@ -1,0 +1,44 @@
+systemctl stop firwwalld
+setenforce 0setenforce 0
+setenforce 0
+firewall-cmd --list-all
+
+
+dnf -y install bind-chroot
+
+
+
+正向域 www.baidu.com.
+反向域 127.0.0.1
+
+named.localhost		正向域模板
+
+[root@localhost named]# cat named.localhost 
+$TTL 1D
+@	IN SOA	@ rname.invalid. (
+					0	; serial
+					1D	; refresh
+					1H	; retry
+					1W	; expire
+					3H )	; minimum
+	NS	@
+	A	127.0.0.1
+	AAAA	::1
+[root@localhost named]#
+
+named.loopback		反向域模板
+
+[root@localhost named]# cat named.loopback 
+$TTL 1D
+@	IN SOA	@ rname.invalid. (
+					0	; serial
+					1D	; refresh
+					1H	; retry
+					1W	; expire
+					3H )	; minimum
+	NS	@
+	A	127.0.0.1
+	AAAA	::1
+	PTR	localhost.
+[root@localhost named]#
+
