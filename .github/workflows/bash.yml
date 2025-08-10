@@ -27,8 +27,8 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "Release- ${{ env.DATETIME }}"
-          name: "Release-Pack- ${{ env.DATETIME }}"
+          tag_name: "Release-${{ env.DATETIME }}"
+          name: "Release-Pack-${{ env.DATETIME }}"
           body: |
             此 Rel 为 GitHub Actions 生成。
           files: all-pack.zip
