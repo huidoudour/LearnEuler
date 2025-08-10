@@ -21,14 +21,14 @@ jobs:
       id: datetime
       run: |
           # 格式：YYYY-MM-DD_HH-MM-SS （24小时制，UTC时间）
-          echo "DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-          echo "DATETIME=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          echo "DATETIME=$(date)" >> $GITHUB_ENV
+          echo "DATETIME=$(date)" >> $GITHUB_OUTPUT
 
     - name: Create Pre-release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: "manual-pre-${{ env.DATETIME }}"
-        name: "Pre-release-${{ env.DATETIME }}"
+        tag_name: "manual-pre- ${{ env.DATETIME }}"
+        name: "Pre-release- ${{ env.DATETIME }}"
         body: "此 Pre 为 ${GITHUB_ACTOR} 生成"
         files: pre-manual.zip
         prerelease: true
