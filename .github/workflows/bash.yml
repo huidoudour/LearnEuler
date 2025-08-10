@@ -7,7 +7,7 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     env:
-      DATETIME: ""  # 显式声明变量（避免VSCode警告）
+      DATETIME: ""  # 显式声明变量
 
     steps:
       - name: Checkout repository
@@ -21,16 +21,19 @@ jobs:
         id: datetime-step
         run: |
           # 格式：YYYY-MM-DD_HH-MM-SS （24小时制，UTC时间）
-          echo "DATETIME=$(date)" >> $GITHUB_ENV
-          echo "DATETIME=$(date)" >> $GITHUB_OUTPUT
+          DATETIME=$(date -u +"%Y-%m-%d_%H-%M-%S")
+          echo "DATETIME=$DATETIME" >> $GITHUB_ENV
+          echo "DATETIME=$DATETIME" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "Release-${{ env.DATETIME }}"
-          name: "Release-Pack-${{ env.DATETIME }}"
+          tag_name: "release-${{ env.DATETIME }}"
+          name: "Release Pack ${{ env.DATETIME }}"
           body: |
-            此 Rel 为 GitHub Actions 生成。
+            此 Release 由 GitHub Actions 自动生成。
+            生成时间: ${{ env.DATETIME }}
+            触发者: ${{ github.actor }}
           files: all-pack.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
