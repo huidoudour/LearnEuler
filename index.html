@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnEuler - OpenEuler系统学习笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .github-user {
+            margin-top: 10px;
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        
+        .github-user a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dashed white;
+        }
+        
+        .github-user a:hover {
+            border-bottom: 1px solid white;
+            opacity: 1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        nav {
+            width: 250px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-right: 20px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+        
+        nav h2 {
+            color: #0066cc;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 5px;
+        }
+        
+        nav ul {
+            list-style-type: none;
+        }
+        
+        nav ul li {
+            margin-bottom: 10px;
+        }
+        
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: #f0f0f0;
+            color: #0066cc;
+        }
+        
+        main {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            color: #0066cc;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #555;
+            margin: 20px 0 15px 0;
+            font-size: 1.5em;
+        }
+        
+        pre {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #f8f8f8;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            text-align: center;
+        }
+        
+        footer p:last-child {
+            margin-bottom: 0;
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            main {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LearnEuler</h1>
+        <div class="subtitle">OpenEuler系统学习笔记与配置指南</div>
+        <div class="github-user">声明: 如若侵权，请联系 <a href="https://github.com/huidoudour" target="_blank">huidoudour</a></div>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#dns">DNS配置</a></li>
+                <li><a href="#sshpass">sshpass工具</a></li>
+                <li><a href="#ca">CA服务器</a></li>
+                <li><a href="#apache">Apache服务器</a></li>
+                <li><a href="#virtualhost">虚拟主机配置</a></li>
+                <li><a href="#mpm">MPM的worker模式</a></li>
+                <li><a href="#ssl">SSL配置</a></li>
+                <li><a href="#yum">本地yum源配置</a></li>
+                <li><a href="#network">网卡相关配置</a></li>
+                <li><a href="#firewall">防火墙配置</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <section id="dns">
+                <h2>1. DNS配置</h2>
+                <pre><code>yum -y install bind-chroot
+systemctl enable --now named
+
+vim /etc/namd.conf
+options {
+    listen-on port 53 { any; };
+    ...
+    allow-query     { any; };
+};
+
+vim /etc/named.rfc1912.zones
+zone "xckt.com" IN {
+    type master;
+    file "xckt.com.zone";
+    allow-update { none; };
+};
+
+zone "239.168.192.in-addr.arpa" IN {
+    type master;
+    file "239.168.192.zone";
+    allow-update { none; };
+};</code></pre>
+            </section>
+            
+            <section id="sshpass">
+                <h2>2. sshpass工具</h2>
+                <pre><code>ssh-keygen
+yum -y install sshpass
+
+for i in {9..9}; do sshpass -p '&lt;password&gt;' ssh-copy-id -o StrictHostKeyChecking=no root@192.168.239.12$i; done
+
+for i in {0..1}; do sshpass -p '&lt;password&gt;' ssh-copy-id -o StrictHostKeyChecking=no root@192.168.239.13$i; done
+
+for i in {1..3}; do sshpass -p '&lt;password&gt;' ssh-copy-id -o StrictHostKeyChecking=no ecs$i.xckt.com.; done</code></pre>
+            </section>
+            
+            <section id="ca">
+                <h2>3. CA服务器</h2>
+                <p>参考文章：<a href="https://blog.csdn.net/m0_60984906/article/details/128996331" target="_blank">https://blog.csdn.net/m0_60984906/article/details/128996331</a></p>
+            </section>
+            
+            <section id="apache">
+                <h2>4. Apache服务器</h2>
+                <pre><code>vim /etc/selinux/config
+SELINUX=enforcing
+↓
+SELINUX=disabled
+
+yum -y install httpd
+
+systemctl start httpd
+systemctl enable httpd
+
+mkdir /var/www/html/6401 /var/www/html/6402 /var/www/html/6403
+#在各目录下创建index.html用于测试
+
+vim /etc/httpd/conf/httpd.conf
+#使用端口
+&lt;VirtualHost *:80 &gt;
+    DocumentRoot /var/www/html
+    ServerName www.xckt.com
+    &lt;Directory /var/www/html&gt;
+    AllowOverride None
+    Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+            </section>
+            
+            <section id="virtualhost">
+                <h2>5. 虚拟主机配置</h2>
+                <pre><code>"/etc/httpd/conf.d/xckt.com.conf"
+#主配置
+&lt;VirtualHost *:81 &gt;
+    DocumentRoot /var/www/html/error
+    ServerName 192.168.239.129
+    &lt;Directory /var/www/html/error&gt;
+    Allowoverride None
+    Require all denied
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:81 &gt;
+    DocumentRoot /var/www/html/
+    ServerName www.xckt.com
+    &lt;Directory /var/www/html/&gt;
+    Allowoverride None
+    Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+
+
+#重定向
+&lt;VirtualHost *:81&gt;
+    ServerName www.xckt.com
+    DocumentRoot /var/www/html
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:81&gt;
+    ServerName xckt.com
+    ServerAlias *.xckt.com
+    Redirect permanent / http://www.xckt.com:81/
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:81&gt;
+    ServerName ecs1.xckt.com
+    ServerAlias *.xckt.com
+    Redirect 301 / http://www.xckt.com:81/
+&lt;/VirtualHost&gt;</code></pre>
+            </section>
+            
+            <section id="mpm">
+                <h2>6. MPM的worker模式</h2>
+                <pre><code>配置MPM工作模式为worker
+cd /etc/httpd/conf.modules.d/
+修改 00-mpm.conf文件配置
+注释&gt;#LoadModule mpm_event_module modules/mod_mpm_event.so
+取消注释&gt;LoadModule mpm_worker_module modules/mod_mpm_worker.so</code></pre>
+            </section>
+            
+            <section id="ssl">
+                <h2>7. SSL配置</h2>
+                <h3>一、SSL配置</h3>
+                <p>如果客户端访问 Apache 服务时必须有 SSL 证书，可以按照以下步骤进行配置：</p>
+                
+                <h4>1. 安装 SSL 证书</h4>
+                <ol>
+                    <li><strong>获取 SSL 证书</strong>：
+                        <ul>
+                            <li>可以从受信任的证书颁发机构（CA）购买 SSL 证书，或者使用免费的证书颁发机构如 Let's Encrypt。</li>
+                            <li>根据证书颁发机构的指南，申请并获取 SSL 证书。通常，你会收到一个包含证书文件（如 <code>.crt</code> 或 <code>.pem</code> 文件）和私钥文件（如 <code>.key</code> 文件）的压缩包。</li>
+                        </ul>
+                    </li>
+                    <li><strong>安装证书和私钥</strong>：
+                        <ul>
+                            <li>将证书文件和私钥文件复制到服务器上的适当位置。通常，你可以将它们放在 <code>/etc/ssl/certs</code>（证书文件）和 <code>/etc/ssl/private</code>（私钥文件）目录下，但具体位置可以根据你的服务器配置而有所不同。</li>
+                            <li>确保证书文件和私钥文件的权限设置正确，以防止未经授权的访问。通常，私钥文件应该只有服务器管理员可读，而证书文件可以被 Web 服务器进程读取。</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h4>2. 配置 Apache 以使用 SSL</h4>
+                <ol>
+                    <li><strong>打开 Apache 配置文件</strong>：
+                        <ul>
+                            <li>通常，Apache 的主配置文件是 <code>/etc/httpd/conf/httpd.conf</code>，但具体位置可能因操作系统和安装方式而有所不同。</li>
+                            <li>使用文本编辑器打开配置文件，并确保你有足够的权限进行编辑。</li>
+                        </ul>
+                    </li>
+                    <li><strong>启用 SSL 模块</strong>：
+                        <ul>
+                            <li>在配置文件中查找以下内容：<br>
+                                <code>LoadModule ssl_module modules/mod_ssl.so</code></li>
+                            <li>如果没有找到这个指令，说明 SSL 模块没有加载，你需要添加它以启用 SSL 支持。</li>
+                        </ul>
+                    </li>
+                    <li><strong>创建或编辑虚拟主机配置</strong>：
+                        <pre><code>&lt;VirtualHost *:443&gt;
+    ServerName yourdomain.com
+    DocumentRoot /var/www/yourdomain.com/public_html
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/yourdomain.crt
+    SSLCertificateKeyFile /etc/ssl/private/yourdomain.key
+
+    # 其他配置选项...
+&lt;/VirtualHost&gt;</code></pre>
+                    </li>
+                    <li><strong>配置强制 SSL</strong>：
+                        <pre><code>RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]</code></pre>
+                    </li>
+                </ol>
+                
+                <h4>3. 测试 SSL 配置</h4>
+                <pre><code># 保存并关闭配置文件
+# 重新启动 Apache 服务器
+sudo systemctl restart httpd</code></pre>
+                
+                <div class="note">
+                    <strong>注意事项：</strong>
+                    <ul>
+                        <li>在配置 SSL 时，确保证书和私钥文件的安全性，防止未经授权的访问。</li>
+                        <li>定期更新 SSL 证书，以确保安全性和兼容性。</li>
+                        <li>如果你的网站使用多个域名或子域名，你可能需要为每个域名申请和安装单独的 SSL 证书，或者使用通配符证书或多域名证书。</li>
+                        <li>在配置强制 SSL 时，要注意可能会影响一些旧的链接或脚本，确保你的网站在 HTTPS 下正常工作。</li>
+                    </ul>
+                </div>
+                
+                <h3>二、如果没有mod_ssl.so</h3>
+                <p>如果你的 Apache 服务器中 SSL 模块不存在，可以按照以下步骤来解决：</p>
+                
+                <h4>1. 安装 SSL 模块</h4>
+                <pre><code># CentOS/RHEL
+sudo yum install mod_ssl
+
+# Ubuntu/Debian
+sudo apt-get install libapache2-mod-ssl</code></pre>
+                
+                <h4>2. 检查模块是否安装成功</h4>
+                <pre><code># 查看 Apache 模块目录
+ls /etc/httpd/modules/mod_ssl.so
+
+# 检查 Apache 配置文件
+# 查找是否有类似于 LoadModule ssl_module modules/mod_ssl.so 的行</code></pre>
+                
+                <h4>3. 重新启动 Apache 服务器</h4>
+                <pre><code># CentOS/RHEL
+sudo systemctl restart httpd
+
+# Ubuntu/Debian
+sudo service apache2 restart</code></pre>
+            </section>
+            
+            <section id="yum">
+                <h2>8. 本地yum源配置</h2>
+                <pre><code>mkdir /media/cdrom/
+mount /dev/cdrom /media/cdrom/
+cd /etc/yum.repos.d/
+mv openEuler.repo openEuler.repo.bak
+cat &lt;&lt; EOF > local.repo
+[local]
+name=myrepo
+baseurl=file:///media/cdrom
+gpgcheck=0
+enabled=1
+EOF</code></pre>
+                
+                <p><strong>永久自动挂载yum源：</strong></p>
+                <pre><code>#编辑配置文件
+vi /etc/fstab
+#最后加上一条
+/dev/cdrom /media/cdrom iso9660 defaults 0 0
+或
+mount /kvm/openeuler.iso /media/cdrom/
+#重新挂载
+mount -a
+#检查是否挂载成功
+df -h</code></pre>
+            </section>
+            
+            <section id="network">
+                <h2>9. 网卡相关配置</h2>
+                <pre><code>安装支持重启网卡命令包
+yum -y install network-scripts
+
+网卡重启
+systemctl restart network
+
+网卡重启（先卸载，再加载）
+nmcli c load /etc/sysconfig/network-scripts/ifcfg-ens33
+nmcli c up /etc/sysconfig/network-scripts/ifcfg-ens33</code></pre>
+                
+                <h3>正向域配置文件</h3>
+                <pre><code>$TTL 1D
+@       IN SOA  @ rname.invalid. (
+                                0       ; serial
+                                1D      ; refresh
+                                1H      ; retry
+                                1W      ; expire
+                                3H )    ; minimum
+        NS      @
+        A       127.0.0.1
+        AAAA    ::1
+        PTR     localhost.
+xckt1   PTR     192.168.239.129
+xckt2   PTR     192.168.239.130
+xckt3   PTR     192.168.239.131</code></pre>
+                
+                <h3>反向域配置文件</h3>
+                <pre><code>$TTL 1D
+@       IN SOA  @ rname.invalid. (
+                                0       ; serial
+                                1D      ; refresh
+                                1H      ; retry
+                                1W      ; expire
+                                3H )    ; minimum
+        NS      @
+        A       127.0.0.1
+        AAAA    ::1
+129     A       ecs1.xckt.com
+130     A       ecs2.xckt.com
+131     A       ecs3.xckt.com</code></pre>
+            </section>
+            
+            <section id="firewall">
+                <h2>10. 防火墙配置</h2>
+                <pre><code>systemctl stop firwwalld
+setenforce 0
+firewall-cmd --list-all
+systemctl start/restart/stop firewalld
+firewall-cmd --zone=public --add-port=xx/tcp | --add-port=xx/udp</code></pre>
+                
+                <h3>服务对应端口号（部分）</h3>
+                <ul>
+                    <li>DNS服务：53/tcp、53/udp</li>
+                    <li>chrony服务：123/udp</li>
+                    <li>Apache服务：80/tcp、443/tcp</li>
+                    <li>tomcat服务：80/tcp、443/tcp、8080/tcp</li>
+                    <li>nfs服务：2049/tcp、111/tcp、111/utp</li>
+                    <li>smaba服务：139/tcp、445/tcp</li>
+                    <li>iscs服务：860/tcp、3260/tcp</li>
+                    <li>postgresql服务：5432/tcp、5432/udp</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+    
+    <footer>
+        <p>© 2024 huidoudour 的 GitHub Pages | 由 GitHub Pages 托管</p>
+        <p>最后更新: <span id="currentDate"></span></p>
+    </footer>
+    
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+        
+        // 设置当前日期
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('currentDate').textContent = formattedDate;
+        });
+    </script>
+</body>
+</html>
