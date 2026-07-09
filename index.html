@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
         
+        html {
+            overflow-x: hidden;
+        }
+        
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             line-height: 1.6;
@@ -204,8 +208,26 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            
             .container {
                 flex-direction: column;
+                padding: 0 10px;
+            }
+            
+            header {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
             }
             
             nav {
@@ -214,12 +236,14 @@
                 left: -280px;
                 width: 280px;
                 height: 100vh;
+                height: 100dvh;
                 margin-right: 0;
                 margin-bottom: 0;
                 border-radius: 0;
                 z-index: 1000;
                 transition: left 0.3s ease;
                 overflow-y: auto;
+                padding-top: env(safe-area-inset-top);
             }
             
             nav.active {
@@ -228,6 +252,20 @@
             
             main {
                 width: 100%;
+                min-width: 0;
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            h3 {
+                font-size: 1.2em;
+            }
+            
+            ul, ol {
+                margin-left: 20px;
             }
             
             .nav-toggle {
@@ -236,7 +274,7 @@
                 justify-content: center;
                 gap: 6px;
                 position: fixed;
-                bottom: 30px;
+                bottom: calc(30px + env(safe-area-inset-bottom, 5px));
                 right: 30px;
                 padding: 14px 20px;
                 background-color: #0066cc;
@@ -300,6 +338,36 @@
             
             .nav-overlay.active {
                 display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 8px;
+            }
+            
+            main {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.4em;
+            }
+            
+            h2 {
+                font-size: 1.25em;
+            }
+            
+            h3 {
+                font-size: 1.1em;
+            }
+            
+            .nav-toggle {
+                bottom: calc(16px + env(safe-area-inset-bottom, 5px));
+                right: 16px;
+                padding: 10px 14px;
+                font-size: 13px;
+                border-radius: 24px;
             }
         }
     </style>
@@ -642,7 +710,7 @@ firewall-cmd --zone=public --add-port=xx/tcp | --add-port=xx/udp</code></pre>
     </div>
     
     <footer>
-        <p>© 2024 huidoudour 的 GitHub Pages | 由 GitHub Pages 托管</p>
+        <p>© 2026 huidoudour 的 GitHub Pages | 由 GitHub Pages 托管</p>
         <p>最后更新: 2026-07-09 21:44</p>
     </footer>
     
