@@ -198,18 +198,108 @@
             font-size: 0.9em;
         }
         
+        /* 移动端目录切换按钮 - 桌面隐藏 */
+        .nav-toggle {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
             
             nav {
-                width: 100%;
+                position: fixed;
+                top: 0;
+                left: -280px;
+                width: 280px;
+                height: 100vh;
                 margin-right: 0;
+                margin-bottom: 0;
+                border-radius: 0;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+            
+            nav.active {
+                left: 0;
             }
             
             main {
                 width: 100%;
+            }
+            
+            .nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                padding: 14px 20px;
+                background-color: #0066cc;
+                color: white;
+                border: none;
+                border-radius: 28px;
+                font-size: 15px;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 4px 15px rgba(0,102,204,0.4);
+                transition: background-color 0.3s, transform 0.2s;
+            }
+            
+            .nav-toggle:active {
+                transform: scale(0.95);
+            }
+            
+            .nav-toggle:hover {
+                background-color: #0052a3;
+            }
+            
+            .nav-toggle-icon {
+                display: inline-block;
+                width: 18px;
+                height: 2px;
+                background-color: white;
+                position: relative;
+                border-radius: 1px;
+            }
+            
+            .nav-toggle-icon::before,
+            .nav-toggle-icon::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 18px;
+                height: 2px;
+                background-color: white;
+                border-radius: 1px;
+                transition: transform 0.3s;
+            }
+            
+            .nav-toggle-icon::before {
+                top: -6px;
+            }
+            
+            .nav-toggle-icon::after {
+                top: 6px;
+            }
+            
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            
+            .nav-overlay.active {
+                display: block;
             }
         }
     </style>
@@ -237,6 +327,11 @@
                 <li><a href="#firewall">防火墙配置</a></li>
             </ul>
         </nav>
+        <button class="nav-toggle" id="navToggle">
+            <span class="nav-toggle-icon"></span>
+            目录
+        </button>
+        <div class="nav-overlay" id="navOverlay"></div>
         
         <main>
             <section id="dns">
@@ -548,7 +643,7 @@ firewall-cmd --zone=public --add-port=xx/tcp | --add-port=xx/udp</code></pre>
     
     <footer>
         <p>© 2024 huidoudour 的 GitHub Pages | 由 GitHub Pages 托管</p>
-        <p>最后更新: <span id="currentDate"></span></p>
+        <p>最后更新: 2026-07-09 21:44</p>
     </footer>
     
     <script>
@@ -563,6 +658,32 @@ firewall-cmd --zone=public --add-port=xx/tcp | --add-port=xx/udp</code></pre>
                 });
             });
         });
+        
+        // 移动端目录切换
+        const navToggle = document.getElementById('navToggle');
+        const nav = document.querySelector('nav');
+        const navOverlay = document.getElementById('navOverlay');
+        
+        if (navToggle && nav && navOverlay) {
+            navToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                navOverlay.classList.toggle('active');
+            });
+            
+            navOverlay.addEventListener('click', function() {
+                nav.classList.remove('active');
+                navOverlay.classList.remove('active');
+            });
+            
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        nav.classList.remove('active');
+                        navOverlay.classList.remove('active');
+                    }
+                });
+            });
+        }
         
         // 设置当前日期
         document.addEventListener('DOMContentLoaded', function() {
